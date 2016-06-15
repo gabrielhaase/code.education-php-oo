@@ -3,12 +3,6 @@
 require_once('Cliente.php');
 require_once('db-clientes.php');
 //------------------------------------------------------------------------------------------------------------
-$clientes = array();
-
-foreach($listaClientes AS $cliente) {
-    $clientes[] = new Cliente($cliente['nome'], $cliente['cpf'], $cliente['endereco']);
-}
-//------------------------------------------------------------------------------------------------------------
 $ordemExibicao = $_GET['ordemExibicao'];
 $ordemExibicao = ( isset($ordemExibicao) && !empty($ordemExibicao) ) ? $ordemExibicao : 'crescente';
 

@@ -1,9 +1,12 @@
 <?php
 //------------------------------------------------------------------------------------------------------------
+require_once('Cliente.php');
 require_once('db-clientes.php');
 //------------------------------------------------------------------------------------------------------------
 $idCliente = $_GET['id'];
-$dadosCliente = $listaClientes[$idCliente];
+$cliente = $clientes[$idCliente];
+$dadosCliente = $cliente->getData();
+//------------------------------------------------------------------------------------------------------------
 ?>
 
 <!DOCTYPE html>
@@ -25,15 +28,15 @@ $dadosCliente = $listaClientes[$idCliente];
         <section>
             <ul class="list-group">
                 <li>
-                    <label>Nome</label>
+                    <label>Nome: </label>
                     <?php echo $dadosCliente['nome']; ?>
                 </li>
                 <li>
-                    <label>CPF</label>
+                    <label>CPF: </label>
                     <?php echo $dadosCliente['cpf']; ?>
                 </li>
                 <li>
-                    <label>Endereço</label>
+                    <label>Endereço: </label>
                     <?php echo $dadosCliente['endereco']; ?>
                 </li>
             </ul>
