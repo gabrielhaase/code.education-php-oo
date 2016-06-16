@@ -1,11 +1,15 @@
 <?php
 //------------------------------------------------------------------------------------------------------------
+require_once('ClienteImportanciaInterface.php');
+require_once('ClientePFInterface.php');
+require_once('ClientePJInterface.php');
 require_once('Cliente.php');
+require_once('ClientePF.php');
+require_once('ClientePJ.php');
 require_once('db-clientes.php');
 //------------------------------------------------------------------------------------------------------------
 $idCliente = $_GET['id'];
 $cliente = $clientes[$idCliente];
-$dadosCliente = $cliente->getData();
 //------------------------------------------------------------------------------------------------------------
 ?>
 
@@ -22,23 +26,33 @@ $dadosCliente = $cliente->getData();
     <body>
         <header>
             <div class="page-header">
-                <h1>Detalhes do cliente<small> - <?php echo $dadosCliente['nome']; ?></small></h1>
+                <h1>Detalhes do cliente<small> - <?php echo $cliente->getNome(); ?></small></h1>
             </div>
         </header>
         <section>
             <ul class="list-group">
                 <li>
+                    <label>Tipo cliente: </label>
+                    <?php echo $cliente->getTipoCliente()=='PF' ? "Pessoa física" : 'Pessoa jurídica'; ?>
+                </li>                
+                <li>
                     <label>Nome: </label>
-                    <?php echo $dadosCliente['nome']; ?>
+                    <?php echo $cliente->getNome(); ?>
                 </li>
                 <li>
-                    <label>CPF: </label>
-                    <?php echo $dadosCliente['cpf']; ?>
+                    <label><?php echo $cliente->getTipoCliente()=="PF" ? 'CPF:' : 'CNPJ:'; ?> </label>
+                    <?php echo $cliente->getTipoCliente()=="PF" ? $cliente->getCpf() : $cliente->getCnpj(); ?>
                 </li>
                 <li>
                     <label>Endereço: </label>
-                    <?php echo $dadosCliente['endereco']; ?>
+                    <?php echo $cliente->getEndereco(); ?>
                 </li>
+                <?php if( $cliente->getTipoCliente()=='PJ' && !empty($cliente->getEnderecoCobranca()) ): ?>
+                    <li>
+                        <label>Endereço cobrança: </label>
+                        <?php echo $cliente->getEnderecoCobranca(); ?>
+                    </li>  
+                <?php endif; ?>
             </ul>
             <hr>
             <button type="button" class="btn btn-primary" onclick="javascript: history.back();">Voltar</button>            

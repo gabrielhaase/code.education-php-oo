@@ -1,6 +1,11 @@
 <?php
 //------------------------------------------------------------------------------------------------------------
+require_once('ClienteImportanciaInterface.php');
+require_once('ClientePFInterface.php');
+require_once('ClientePJInterface.php');
 require_once('Cliente.php');
+require_once('ClientePF.php');
+require_once('ClientePJ.php');
 require_once('db-clientes.php');
 //------------------------------------------------------------------------------------------------------------
 $ordemExibicao = $_GET['ordemExibicao'];
@@ -27,7 +32,7 @@ if($ordemExibicao == 'crescente') {
     <body>
         <header>
             <div class="page-header">
-                <h1>Cadastro de clientes<small> - Projeto Fase 1</small></h1>
+                <h1>Cadastro de clientes<small> - Projeto Fase 2</small></h1>
             </div>
         </header>
         <section>
@@ -35,19 +40,32 @@ if($ordemExibicao == 'crescente') {
                 <thead>
                     <tr>
                         <th><a href="?&ordemExibicao=<?php echo $ordemExibicao == 'crescente' ? 'descrescente' : 'crescente'; ?>">#</a></th>
+                        <th>Tipo cliente</th>
+                        <th>Importância</th>
                         <th>Nome</th>
-                        <th>CPF</th>
+                        <th>CPF/CNPJ</th>
                         <th>Endereço</th>
+                        <th>Endereço de cobrança</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($clientes AS $key=>$cliente) : ?>
-                        <?php $dataCliente = $cliente->getData(); ?>
                         <tr>
                             <td><?php echo $key; ?></td>
-                            <td><a href="detalhes.php?id=<?php echo $key;?>" title="Clique para visualizar"><?php echo $dataCliente['nome']; ?></a></td>
-                            <td><?php echo $dataCliente['cpf']; ?></td>
-                            <td><?php echo $dataCliente['endereco']; ?></td>
+                            <td><?php echo $cliente->getTipoCliente()=='PF' ? "Pessoa física" : 'Pessoa jurídica'; ?></td>
+                            <td>
+                                <?php for( $i=1; $i<=5; $i++ ): ?>
+                                    <?php if($i <= $cliente->getImportancia()):?>
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    <?php else :?>
+                                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+                            </td>
+                            <td><a href="detalhes.php?id=<?php echo $key;?>" title="Clique para visualizar"><?php echo $cliente->getNome(); ?></a></td>
+                            <td><?php echo $cliente->getTipoCliente()=="PF" ? $cliente->getCpf() : $cliente->getCnpj(); ?></td>
+                            <td><?php echo $cliente->getEndereco(); ?></td>
+                            <td><?php echo $cliente->getTipoCliente()=="PJ" ? $cliente->getEnderecoCobranca() : ''; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>                

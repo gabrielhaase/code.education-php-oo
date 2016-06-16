@@ -1,27 +1,50 @@
 <?php
 
-class Cliente {
+class Cliente implements ClienteImportanciaInterface {
     
-    private $nome;
-    private $cpf;
-    private $endereco;
+    protected $tipoCliente;
+    protected $nome;
+    protected $endereco;
+    protected $importancia;
     
-    public function __construct($nome, $cpf, $endereco) {
+    // tipo cliente -------------------------------------------------------------------
+    public function getTipoCliente() {
+        return $this->tipoCliente;
+    }
+    
+    public function setTipoCliente($tipoClente) {
+        $this->tipoCliente = $tipoClente;
+        return $this;
+    }
+
+    // nome -------------------------------------------------------------------
+    public function getNome() {
+        return $this->nome;
+    }
+    
+    public function setNome($nome) {
         $this->nome = $nome;
-        $this->cpf = $cpf;
+        return $this;
+    }
+    
+    // endereço -------------------------------------------------------------------
+    public function getEndereco() {
+        return $this->endereco;
+    }
+    
+    public function setEndereco($endereco) {
         $this->endereco = $endereco;
+        return $this;
     }
     
-    public function getData() {
-        $dadosCliente = [
-            'nome' => $this->nome,
-            'cpf' => $this->cpf,
-            'endereco' => $this->endereco
-        ];
-        
-        return $dadosCliente;
+    // importância -------------------------------------------------------------------
+    public function getImportancia() {
+        return $this->importancia;
     }
     
-    
+    public function setImportancia($importancia) {
+        $this->importancia = $importancia;
+        return $this;        
+    }
     
 }
