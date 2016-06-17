@@ -1,19 +1,13 @@
 <?php
 //------------------------------------------------------------------------------------------------------------
-require_once('ClienteImportanciaInterface.php');
-require_once('ClientePFInterface.php');
-require_once('ClientePJInterface.php');
-require_once('Cliente.php');
-require_once('ClientePF.php');
-require_once('ClientePJ.php');
-require_once('ClienteData.php');
+require_once('./inc/autoload.php');
 
 //------------------------------------------------------------------------------------------------------------
 $ordemExibicao = $_GET['ordemExibicao'];
 $ordemExibicao = ( isset($ordemExibicao) && !empty($ordemExibicao) ) ? $ordemExibicao : 'ASC';
 
 //------------------------------------------------------------------------------------------------------------
-$dadosClientes = new ClienteData();
+$dadosClientes = new \GHA\Cliente\Data\ClienteData();
 $clientes = $dadosClientes->getData($ordemExibicao);
 
 //------------------------------------------------------------------------------------------------------------
