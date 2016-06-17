@@ -6,16 +6,16 @@ require_once('ClientePJInterface.php');
 require_once('Cliente.php');
 require_once('ClientePF.php');
 require_once('ClientePJ.php');
-require_once('db-clientes.php');
+require_once('ClienteData.php');
+
 //------------------------------------------------------------------------------------------------------------
 $ordemExibicao = $_GET['ordemExibicao'];
-$ordemExibicao = ( isset($ordemExibicao) && !empty($ordemExibicao) ) ? $ordemExibicao : 'crescente';
+$ordemExibicao = ( isset($ordemExibicao) && !empty($ordemExibicao) ) ? $ordemExibicao : 'ASC';
 
-if($ordemExibicao == 'crescente') {
-    ksort($clientes);
-} else {
-    krsort($clientes);
-}
+//------------------------------------------------------------------------------------------------------------
+$dadosClientes = new ClienteData();
+$clientes = $dadosClientes->getData($ordemExibicao);
+
 //------------------------------------------------------------------------------------------------------------
 ?>
 
@@ -39,7 +39,7 @@ if($ordemExibicao == 'crescente') {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a href="?&ordemExibicao=<?php echo $ordemExibicao == 'crescente' ? 'descrescente' : 'crescente'; ?>">#</a></th>
+                        <th><a href="?&ordemExibicao=<?php echo $ordemExibicao == 'ASC' ? 'DESC' : 'ASC'; ?>">#</a></th>
                         <th>Tipo cliente</th>
                         <th>Importância</th>
                         <th>Nome</th>
