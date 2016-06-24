@@ -1,14 +1,25 @@
 <?php
 //------------------------------------------------------------------------------------------------------------
 require_once('./inc/autoload.php');
+
+//------------------------------------------------------------------------------------------------------------
+use GHA\Cliente\Db\Connect;
+use GHA\Cliente\Type\ClientePF;
+use GHA\Cliente\Type\ClientePJ;
+use GHA\Cliente\Data\ClienteData;
+
 //------------------------------------------------------------------------------------------------------------
 $idCliente = $_GET['id'];
-$dadosClientes = new \GHA\Cliente\Data\ClienteData();
-$clientes = $dadosClientes->getData($ordemExibicao);
-$cliente = $clientes[$idCliente];
+$db = new Connect();
+$pdo = $db->dbConnect();
+
+$dadosCliente = new ClienteData($pdo);
+$cliente = $dadosCliente->getCliente($idCliente);
+
+$cliente = $cliente['tipoCliente'] == "PF" ? new ClientePF($cliente['id'], $cliente['nome'], $cliente['numId'], $cliente['importancia'], $cliente['endereco']) : new ClientePJ($cliente['id'], $cliente['nome'], $cliente['numId'], $cliente['importancia'], $cliente['endereco'], $cliente['enderecoCobranca']);
+
 //------------------------------------------------------------------------------------------------------------
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>

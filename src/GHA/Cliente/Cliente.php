@@ -9,6 +9,7 @@ use GHA\Cliente\Util\ClienteImportanciaInterface;
 
 abstract class Cliente implements ClienteImportanciaInterface {
     
+    protected $id;
     protected $tipoCliente;
     protected $nome;
     protected $endereco;
@@ -23,6 +24,16 @@ abstract class Cliente implements ClienteImportanciaInterface {
         $this->tipoCliente = $tipoClente;
         return $this;
     }
+
+    // nome -------------------------------------------------------------------
+    public function getId() {
+        return $this->id;
+    }
+    
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }    
 
     // nome -------------------------------------------------------------------
     public function getNome() {

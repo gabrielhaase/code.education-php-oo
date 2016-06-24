@@ -13,7 +13,8 @@ class ClientePJ extends Cliente implements ClientePJInterface {
     private $cnpj;
     private $enderecoCobranca;
     
-    public function __construct($nome, $cnpj, $importancia, $endereco, $enderecoCobranca) {
+    public function __construct($id, $nome, $cnpj, $importancia, $endereco, $enderecoCobranca) {
+        $this->id = $id;
         $this->tipoCliente = 'PJ';
         $this->nome = $nome;
         $this->cnpj = $cnpj;

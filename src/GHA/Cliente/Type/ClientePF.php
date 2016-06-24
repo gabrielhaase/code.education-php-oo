@@ -12,7 +12,8 @@ class ClientePF extends Cliente implements ClientePFInterface {
     
     private $cpf;
     
-    public function __construct($nome, $cpf, $importancia, $endereco) {
+    public function __construct($id, $nome, $cpf, $importancia, $endereco) {
+        $this->id = $id;
         $this->tipoCliente = 'PF';
         $this->nome = $nome;
         $this->cpf = $cpf;

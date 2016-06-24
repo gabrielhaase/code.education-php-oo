@@ -7,8 +7,24 @@ $ordemExibicao = $_GET['ordemExibicao'];
 $ordemExibicao = ( isset($ordemExibicao) && !empty($ordemExibicao) ) ? $ordemExibicao : 'ASC';
 
 //------------------------------------------------------------------------------------------------------------
-$dadosClientes = new \GHA\Cliente\Data\ClienteData();
-$clientes = $dadosClientes->getData($ordemExibicao);
+use GHA\Cliente\Db\Connect;
+use GHA\Cliente\Type\ClientePF;
+use GHA\Cliente\Type\ClientePJ;
+use GHA\Cliente\Data\ClienteData;
+
+//------------------------------------------------------------------------------------------------------------
+$db = new Connect();
+$pdo = $db->dbConnect();
+
+$dadosClientes = new ClienteData($pdo);
+
+//------------------------------------------------------------------------------------------------------------
+$dbClientes = $dadosClientes->getClientes($ordemExibicao);
+$clientes = [];
+
+foreach ($dbClientes as $cliente) {
+    $clientes[] = $cliente['tipoCliente'] == "PF" ? new ClientePF($cliente['id'], $cliente['nome'], $cliente['numId'], $cliente['importancia'], $cliente['endereco']) : new ClientePJ($cliente['id'], $cliente['nome'], $cliente['numId'], $cliente['importancia'], $cliente['endereco'], $cliente['enderecoCobranca']);
+}
 
 //------------------------------------------------------------------------------------------------------------
 ?>
@@ -26,7 +42,7 @@ $clientes = $dadosClientes->getData($ordemExibicao);
     <body>
         <header>
             <div class="page-header">
-                <h1>Cadastro de clientes<small> - Projeto Fase 2</small></h1>
+                <h1>Cadastro de clientes<small> - Projeto Fase 4</small></h1>
             </div>
         </header>
         <section>
@@ -43,9 +59,9 @@ $clientes = $dadosClientes->getData($ordemExibicao);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($clientes AS $key=>$cliente) : ?>
+                    <?php foreach($clientes AS $cliente) : ?>
                         <tr>
-                            <td><?php echo $key; ?></td>
+                            <td><?php echo $cliente->getId(); ?></td>
                             <td><?php echo $cliente->getTipoCliente()=='PF' ? "Pessoa física" : 'Pessoa jurídica'; ?></td>
                             <td>
                                 <?php for( $i=1; $i<=5; $i++ ): ?>
@@ -56,7 +72,7 @@ $clientes = $dadosClientes->getData($ordemExibicao);
                                     <?php endif; ?>
                                 <?php endfor; ?>
                             </td>
-                            <td><a href="detalhes.php?id=<?php echo $key;?>" title="Clique para visualizar"><?php echo $cliente->getNome(); ?></a></td>
+                            <td><a href="detalhes.php?id=<?php echo $cliente->getId();?>" title="Clique para visualizar"><?php echo $cliente->getNome(); ?></a></td>
                             <td><?php echo $cliente->getTipoCliente()=="PF" ? $cliente->getCpf() : $cliente->getCnpj(); ?></td>
                             <td><?php echo $cliente->getEndereco(); ?></td>
                             <td><?php echo $cliente->getTipoCliente()=="PJ" ? $cliente->getEnderecoCobranca() : ''; ?></td>
