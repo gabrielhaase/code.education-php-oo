@@ -32,3 +32,16 @@ Proposta Fase 3 (Refatoração):
 - Não se esqueça de criar a estrutura de diretórios, nome de arquivos e classes seguindo a PSR-0 (www.php-fig.org).
 - Faça a implementação do autoload para que você não precise mais trabalhar com require/include para a chamada de suas classes.
 - Deixe todo o fonte de sua aplicação no mesmo nível que o DocumentRoot do servidor web. Deixe a pasta que está visível para web (seu DocumentRoot) apenas com o index.php e os demais assets(css, javascript e imagens).
+
+
+Proposta Fase 4 (Persistência de dados):
+----------------
+- Nessa última fase do projeto, você, ao invés de trabalhar com arrays, você deverá persistir essas informações no banco de dados.
+- Em suas fixtures, você deverá criar uma classe com métodos específicos para persistirem dados no banco. Você terá que injetar no construtor dessa classe um objeto PDO (somente PDO).
+- Crie um método chamado persist dentro dessa mesma classe; esse método deverá receber como dependência um objeto do tipo Cliente.
+- E para finalizar, crie um método chamado flush. Quando o método for executado, os dados devem ser persistidos no banco de dados.
+- Perceba que a responsabilidade de gravar os dados no banco são especificamente dessa classe, sem adicionar nenhuma outra responsabilidade a ela.
+
+PS.:  
+Database config: **config.ini**  
+Executar arquivo: **fixtures.php**
